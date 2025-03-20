@@ -25,7 +25,7 @@ export default function UploadPage() {
 
     try {
       setUploadStatus('上传中...');
-      const response = await fetch('http://192.168.1.101:3001/upload', {
+      const response = await fetch(`http://${process.env.REACT_APP_LOCAL_IP}:${process.env.REACT_APP_BE_PORT}/upload`, {
         method: 'POST',
         body: formData,
         headers: {

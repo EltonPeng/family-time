@@ -9,9 +9,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PhotoUploadQR from './PhotoUploadQR';
 import PhotoUploadForm from './PhotoUploadForm';
 
-const lat = '34.25';
-const lon = '108.875';
-
 const WEATHER_CODES = {
   0: { name: '晴', icon: '☀️' },
   1: { name: '晴', icon: '🌤' },
@@ -65,7 +62,7 @@ function PhotoSection() {
     const fetchWeather = async () => {
       try {
         const response = await fetch(
-          `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=3`
+          `https://api.open-meteo.com/v1/forecast?latitude=${process.env.REACT_APP_CITY_LAT}&longitude=${process.env.REACT_APP_CITY_LON}&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=3`
         );
         if (!response.ok) throw new Error('天气服务不可用');
         
@@ -88,7 +85,7 @@ function PhotoSection() {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const response = await fetch('http://192.168.1.101:3001/api/images', { mode: 'cors' });
+        const response = await fetch(`http://${process.env.REACT_APP_LOCAL_IP}:${process.env.REACT_APP_BE_PORT}/api/images`, { mode: 'cors' });
         if (!response.ok) {
           throw new Error(`HTTP错误! 状态码: ${response.status}`);
         }
@@ -155,7 +152,7 @@ function PhotoSection() {
   };
 
   const currentImage = galleryImages.length > 0 
-  ? `http://192.168.1.101:3001/images/${galleryImages[currentGalleryIndex]}`
+  ? `http://${process.env.REACT_APP_LOCAL_IP}:${process.env.REACT_APP_BE_PORT}/images/${galleryImages[currentGalleryIndex]}`
   : null;
 
   return (

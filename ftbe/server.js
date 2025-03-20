@@ -2,10 +2,12 @@ const express = require('express');
 const multer = require('multer');
 const cors = require('cors');
 const fs = require('fs');
-const path = require('path');
+require('dotenv').config();
 
 const app = express();
-const UPLOAD_DIR = path.join(__dirname, 'uploads');
+const FE_PORT = process.env.FE_PORT;
+const BE_PORT = process.env.BE_PORT;
+const UPLOAD_DIR = process.env.UPLOAD_DIR || './uploads';
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -21,14 +23,9 @@ const upload = multer({
   limits: { fileSize: 50 * 1024 * 1024 }
 });
 
-// 确保上传目录存在
-if (!fs.existsSync(UPLOAD_DIR)) {
-  fs.mkdirSync(UPLOAD_DIR);
-}
-
 // 中间件配置
 app.use(cors({
-    origin: ['http://localhost:3000','http://192.168.1.101:3000'], // 允许前端地址访问
+    origin: [`http://localhost:${FE_PORT}`,`http://${process.env.LOCAL_IP}:${FE_PORT}`], // 允许前端地址访问
     methods: ['GET', 'POST']
   }));
 
@@ -67,8 +64,7 @@ app.get('/api/images', (req, res) => {
 });
 
 // 启动服务
-const PORT = 3001;
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`服务器运行在 http://localhost:${PORT}`);
+app.listen(BE_PORT, '0.0.0.0', () => {
+  console.log(`服务器运行在 http://localhost:${BE_PORT}`);
   console.log(`文件上传目录：${UPLOAD_DIR}`);
 });
