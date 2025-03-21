@@ -3,20 +3,35 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 一个用于家庭照片展示和共享的本地化解决方案，包含以下功能：
-[x] 自动照片轮播
-[x] 实时天气显示
-[x] 二维码扫码上传
-[x] 跨设备访问支持
-[] Todo List
+- [x] 自动照片轮播
+- [x] 实时天气显示
+- [x] 二维码扫码上传
+- [x] 跨设备访问支持
+- [ ] Todo List
 
 family-time/
 ├── ftfe/    # 前端 (React)
 ├── ftbe/    # 后端 (Node.js)
 └── readme.md
 
-## 配置指南
+## 在新的debian设备上安装
+### 准备环境并克隆
+1. sudo apt update && sudo apt install -y git nodejs npm
+2. git clone https://github.com/your-repo/family-time.git ~/family-time
+3. cd ~/family-time
+4. chmod +x deploy.sh
+4. ./deploy.sh
 
-### 必需配置项
+## 其他系统安装
+1. 请参考上一节中git clone的部分, 
+2. deploy.sh文件中可能需要做较大调整。
+
+## 必需配置项
+
+配置项将通过部署脚本自动生成，位于：
+- 前端配置： ftfe/.env
+- 后端配置： ftbe/.env
+
 | 变量名 | 示例值 | 作用域 | 说明 |
 |--------|--------|--------|--------|
 | `FE_PORT` | 3000 | 前端 | 服务端口 |
