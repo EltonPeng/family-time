@@ -60,7 +60,11 @@ app.get('/api/images', (req, res) => {
   });
 });
 
-app.listen(BE_PORT, '0.0.0.0', () => {
+const server = app.listen(BE_PORT, '0.0.0.0', () => {
   console.log(`服务器运行在 http://localhost:${BE_PORT}`);
   console.log(`文件上传目录：${UPLOAD_DIR}`);
 });
+
+server.keepAliveTimeout = 60000;
+server.headersTimeout = 65000;
+server.maxHeadersCount = 1000;

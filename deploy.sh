@@ -9,6 +9,11 @@ export NODE_TLS_REJECT_UNAUTHORIZED=0
 npm install -g pm2 --loglevel=error --retry 5 --fetch-retry-maxtimeout 30000
 
 
+sudo sysctl -w net.core.somaxconn=65535
+sudo sysctl -w net.ipv4.tcp_max_syn_backlog=65535 
+sudo sysctl -w net.ipv4.ip_local_port_range="1024 65535"
+
+
 DETECTED_IP=$(hostname -I | awk '{print $1}')
 
 read -p "检测到本机IP为 ${DETECTED_IP} 是否正确？[Y/n] " CONFIRM
@@ -64,7 +69,7 @@ mkdir -p "${UPLOAD_DIR//\\/\\\\}"
 sudo chown -R $USER:$USER "${UPLOAD_DIR//\\/\\\\}"
 
 echo "启动服务..."
-pm2 start "serve -s ../ftfe/build -l ${FE_PORT}" --name "family-time-fe"
+pm2 start "serve -s ../ftfe/build -l ${FE_PORT} --host 0.0.0.0" --name "family-time-fe"
 pm2 start "node -r dotenv/config server.js" --name "family-time-be"
 pm2 save && pm2 startup
 
