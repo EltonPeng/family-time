@@ -23,7 +23,6 @@ const upload = multer({
   limits: { fileSize: 50 * 1024 * 1024 }
 });
 
-// 中间件配置
 app.use(cors({
     origin: [`http://localhost:${FE_PORT}`,`http://${process.env.LOCAL_IP}:${FE_PORT}`], // 允许前端地址访问
     methods: ['GET', 'POST']
@@ -31,7 +30,6 @@ app.use(cors({
 
 app.use('/images', express.static(UPLOAD_DIR));
 
-// 文件上传接口
 app.post('/upload', upload.single('file'), (req, res) => {
   try {
     if (!req.file) {
@@ -50,7 +48,6 @@ app.post('/upload', upload.single('file'), (req, res) => {
   }
 });
 
-// 在文件上传接口后添加
 app.get('/api/images', (req, res) => {
   fs.readdir(UPLOAD_DIR, (err, files) => {
     if (err) {
@@ -63,7 +60,6 @@ app.get('/api/images', (req, res) => {
   });
 });
 
-// 启动服务
 app.listen(BE_PORT, '0.0.0.0', () => {
   console.log(`服务器运行在 http://localhost:${BE_PORT}`);
   console.log(`文件上传目录：${UPLOAD_DIR}`);
