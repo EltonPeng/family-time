@@ -14,7 +14,13 @@ family-time/
 - ftbe/    # 后端 (Node.js)
 - readme.md
 
-## 在新的debian设备上安装
+## 硬件与布署
+### 我的debian设备
+- 两个USB2.0口，一个插了无线网卡，一个插了外接硬盘，对，没有输入设备了
+- 有一个网口但我没用到
+- HDMI输出 (后来发现最大只能输出1024*768)
+- 18w低功耗
+
 ### 准备环境并克隆
 1. sudo apt update && sudo apt install -y git nodejs npm
 2. git clone https://github.com/EltonPeng/family-time.git ~/family-time
@@ -34,8 +40,7 @@ chmod +x deploy.sh
 - [ ] 局域网内手机无法访问
 - [ ] 开机自动访问前端服务
 
-## 必需配置项
-
+## 关于配置项
 配置项将通过部署脚本自动生成，位于：
 - 前端配置： ftfe/.env
 - 后端配置： ftbe/.env
