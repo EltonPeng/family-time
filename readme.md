@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-一个用于家庭照片展示和共享的本地化解决方案，包含以下功能：
+一个重度依赖AI完成的用于家庭照片展示和共享的本地化解决方案：
 - [x] 自动照片轮播
 - [x] 实时天气显示
 - [x] 二维码扫码上传
@@ -10,9 +10,9 @@
 - [ ] Todo List
 
 family-time/
-├── ftfe/    # 前端 (React)
-├── ftbe/    # 后端 (Node.js)
-└── readme.md
+- ftfe/    # 前端 (React)
+- ftbe/    # 后端 (Node.js)
+- readme.md
 
 ## 在新的debian设备上安装
 ### 准备环境并克隆
@@ -48,4 +48,15 @@ chmod +x deploy.sh
 | `CITY_LAT` | 34.25 | 前端 | 城市纬度 |
 | `CITY_LON` | 108.875 | 前端 | 城市经度 |
 
-这个项目是在AI的帮助下写的，欢迎提issue。
+## 部署更新时的操作
+pm2 stop family-time-fe family-time-be
+cd ~/family-time
+git checkout . && git pull
+
+cd ftfe && npm install && npm run build
+cd ../ftbe && npm install
+cd ..
+
+pm2 restart family-time-fe family-time-be
+
+欢迎提issue和讨论。

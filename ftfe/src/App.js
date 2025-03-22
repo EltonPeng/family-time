@@ -173,7 +173,7 @@ function PhotoSection() {
         <div className="info-panel">
           <PhotoUploadQR />
           <div className="weather-card">
-            <h3>3-Days Weather</h3>
+            <h4>3-Days Weather</h4>
             {weatherError && <p className="weather-error">{weatherError}</p>}
             {weatherForecast ? (
                   <div className="forecast-container">
