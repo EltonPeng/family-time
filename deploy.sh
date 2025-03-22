@@ -1,8 +1,12 @@
 #!/bin/bash
-if ! command -v pm2 &> /dev/null; then
-    echo "安装PM2..."
-    sudo npm install -g pm2
-fi
+echo "配置npm镜像源..."
+npm config set registry https://registry.npmmirror.com
+npm config set disturl https://npmmirror.com/dist
+npm config set puppeteer_download_host https://cdn.npmmirror.com
+
+echo "安装PM2（允许重试）..."
+export NODE_TLS_REJECT_UNAUTHORIZED=0
+npm install -g pm2 --loglevel=error --retry 5 --fetch-retry-maxtimeout 30000
 
 
 DETECTED_IP=$(hostname -I | awk '{print $1}')
@@ -51,19 +55,6 @@ EOF
 
 echo "配置完成！"
 
-echo "检测到需要开放的端口：${FE_PORT}(前端) ${BE_PORT}(后端)"
-read -p "是否自动配置防火墙规则？[y/N] " FIREWALL_CONFIRM
-if [[ $FIREWALL_CONFIRM =~ ^[Yy]$ ]]; then
-    echo "开放端口（需要管理员权限）..."
-    sudo ufw allow ${FE_PORT}/tcp
-    sudo ufw allow ${BE_PORT}/tcp
-    sudo ufw reload
-else
-    echo "请手动执行以下命令开放端口："
-    echo "sudo ufw allow ${FE_PORT}/tcp"
-    echo "sudo ufw allow ${BE_PORT}/tcp"
-fi
-
 echo "开始安装依赖..."
 cd ftfe && npm install && npm run build
 cd ../ftbe && npm install
@@ -74,7 +65,7 @@ sudo chown -R $USER:$USER "${UPLOAD_DIR//\\/\\\\}"
 
 echo "启动服务..."
 pm2 start "serve -s ../ftfe/build -l ${FE_PORT}" --name "family-time-fe"
-pm2 start "node server.js" --name "family-time-be"
+pm2 start "node -r dotenv/config server.js" --name "family-time-be"
 pm2 save && pm2 startup
 
 echo "部署完成！访问地址：http://${IP}:${FE_PORT}"

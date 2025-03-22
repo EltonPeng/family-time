@@ -64,7 +64,7 @@ function PhotoSection() {
         const response = await fetch(
           `https://api.open-meteo.com/v1/forecast?latitude=${process.env.REACT_APP_CITY_LAT}&longitude=${process.env.REACT_APP_CITY_LON}&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=3`
         );
-        if (!response.ok) throw new Error('天气服务不可用');
+        if (!response.ok) throw new Error('weather data fetch failed');
         
         const { daily } = await response.json();
         setWeatherForecast({
@@ -87,12 +87,12 @@ function PhotoSection() {
       try {
         const response = await fetch(`http://${process.env.REACT_APP_LOCAL_IP}:${process.env.REACT_APP_BE_PORT}/api/images`, { mode: 'cors' });
         if (!response.ok) {
-          throw new Error(`HTTP错误! 状态码: ${response.status}`);
+          throw new Error(`HTTP error, status: ${response.status}`);
         }
         const data = await response.json();
         setGalleryImages(data.images);
       } catch (error) {
-        console.error('获取图片失败:', error.message);
+        console.error('fetch image failed:', error.message);
       }
     };
     fetchImages();
@@ -162,18 +162,18 @@ function PhotoSection() {
           {currentImage ? (
             <img 
               src={currentImage} 
-              alt="轮播展示" 
+              alt="" 
               onError={(e) => e.target.style.display = 'none'}
             />
           ) : (
-            <p className="placeholder">暂无图片，请上传</p>
+            <p className="placeholder">No images</p>
           )}
         </div>
 
         <div className="info-panel">
           <PhotoUploadQR />
           <div className="weather-card">
-            <h3>今明后三天预报</h3>
+            <h3>3-Days Weather</h3>
             {weatherError && <p className="weather-error">{weatherError}</p>}
             {weatherForecast ? (
                   <div className="forecast-container">
@@ -184,7 +184,7 @@ function PhotoSection() {
                         <p>{new Date(date).toLocaleDateString('zh-CN', { month: 'numeric', day: 'numeric' })}</p>
                         <div className="weather-card__icon-group">
                           {WEATHER_CODES[code]?.icon || '🌐'}
-                          <p>{WEATHER_CODES[code]?.name || '未知'}</p>
+                          {/* <p>{WEATHER_CODES[code]?.name || 'unknown'}</p> */}
                         </div>
                         <p>{weatherForecast.maxTemps[index]}°/{weatherForecast.minTemps[index]}°</p>
                       </div>
@@ -192,7 +192,7 @@ function PhotoSection() {
                   })}
                 </div>
             ) : (
-              <p>加载天气信息中...</p>
+              <p>Loading...</p>
             )}
           </div>
         </div>

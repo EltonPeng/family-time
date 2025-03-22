@@ -16,7 +16,7 @@ export default function UploadPage() {
     }
 
     if (!selectedFile) {
-      setUploadStatus('请先选择文件');
+      setUploadStatus('select image');
       return;
     }
 
@@ -24,7 +24,7 @@ export default function UploadPage() {
     formData.append('file', selectedFile);
 
     try {
-      setUploadStatus('上传中...');
+      setUploadStatus('uploading...');
       const response = await fetch(`http://${process.env.REACT_APP_LOCAL_IP}:${process.env.REACT_APP_BE_PORT}/upload`, {
         method: 'POST',
         body: formData,
@@ -33,16 +33,15 @@ export default function UploadPage() {
         }
       });
       
-      // 保持原有响应处理逻辑
       const result = await response.text();
       try {
         JSON.parse(result);
-        setUploadStatus(response.ok ? '上传成功' : '上传失败');
+        setUploadStatus(response.ok ? 'ok' : 'failed');
       } catch {
-        throw new Error('服务器响应格式错误');
+        throw new Error('server response format error');
       }
     } catch (error) {
-      setUploadStatus(error.message || '上传失败');
+      setUploadStatus(error.message || 'failed');
     }
   };
 
@@ -50,15 +49,15 @@ export default function UploadPage() {
     <div className="photo-upload-form">
       <div className="photo-upload-form__controls">
         <label className="custom-file-upload">
-          选择文件
+          Select
           <input type="file" onChange={handleFileChange} />
         </label>
-        <button onClick={handleUpload} onTouchEnd={handleUpload}>上传文件</button>
+        <button onClick={handleUpload} onTouchEnd={handleUpload}>Upload</button>
       </div>
-      {selectedFile && <p className="file-name">已选择文件：{selectedFile.name}</p>}
+      {selectedFile && <p className="file-name">selected：{selectedFile.name}</p>}
       {uploadStatus && (
         <p className="upload-status" data-status={uploadStatus}>
-          状态：{uploadStatus}
+          Status：{uploadStatus}
         </p>
       )}
     </div>

@@ -17,10 +17,17 @@ family-time/
 ## 在新的debian设备上安装
 ### 准备环境并克隆
 1. sudo apt update && sudo apt install -y git nodejs npm
-2. git clone https://github.com/your-repo/family-time.git ~/family-time
+2. git clone https://github.com/EltonPeng/family-time.git ~/family-time
 3. cd ~/family-time
-4. chmod +x deploy.sh
-4. ./deploy.sh
+4. 不建议直接run deploy.sh脚本，成功率太低了，还是手动执行吧
+chmod +x deploy.sh
+./deploy.sh
+
+### debian系统上遇到的问题
+0. 安装了xfce UI
+1. USB硬盘挂载前可能需要安装ntfs-3g
+2. 可能需要安装firefox
+3. pm2安装 
 
 ## 其他系统安装
 1. 请参考上一节中git clone的部分, 
