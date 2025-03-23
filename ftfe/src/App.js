@@ -171,6 +171,10 @@ function PhotoSection() {
         </div>
 
         <div className="info-panel">
+          <div className="photo-stats">
+            {playedImages.size}/{galleryImages.length}
+          </div>
+
           <PhotoUploadQR />
           <div className="weather-card">
             {weatherError && <p className="weather-error">{weatherError}</p>}
