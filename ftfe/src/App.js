@@ -96,7 +96,7 @@ function PhotoSection() {
       }
     };
     fetchImages();
-    const interval = setInterval(fetchImages, 10000); 
+    const interval = setInterval(fetchImages, 2000); 
     return () => clearInterval(interval);
   }, []);
 
@@ -107,7 +107,7 @@ function PhotoSection() {
       const deletedImages = prevImagesRef.current.filter(img =>!galleryImages.includes(img));
       let unplayed = galleryImages.filter(img => !playedImages.has(img) && !newImages.includes(img));
 
-      if (newImages.length > 0 || deletedImages.length > 0 || playQueue.length === 0) {
+      if (newImages.length > 0 || deletedImages.length > 0) {
         if (deletedImages.length > 0) {
           unplayed = unplayed.filter(img =>!deletedImages.includes(img));
         }
@@ -116,15 +116,14 @@ function PhotoSection() {
           ...unplayed
         ];
 
-        setPlayQueue(prev => [...prev, ...newQueue]);
+        setPlayQueue(() => [...newQueue]);
         prevImagesRef.current = galleryImages;
-      }      
+      }
     }
   }, [galleryImages]);
 
   useEffect(() => {
     const playImage = () => {
-      console.log("tick-playQueue.length:", playQueue.length);
       if (playQueue.length === 0) {
         setPlayQueue(shuffle([...galleryImages]));
         setPlayedImages(new Set());
@@ -172,7 +171,7 @@ function PhotoSection() {
 
         <div className="info-panel">
           <div className="photo-stats">
-            {playedImages.size}/{galleryImages.length}
+            {playedImages.size}/{playQueue.length}/{galleryImages.length}
           </div>
 
           <PhotoUploadQR />
