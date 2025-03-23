@@ -61,8 +61,8 @@ app.get('/api/images', (req, res) => {
 });
 
 const server = app.listen(BE_PORT, '0.0.0.0', () => {
-  console.log(`服务器运行在 http://localhost:${BE_PORT}`);
-  console.log(`文件上传目录：${UPLOAD_DIR}`);
+  console.log(`BE server is running http://localhost:${BE_PORT}`);
+  console.log(`uploading path：${UPLOAD_DIR}`);
 });
 
 server.keepAliveTimeout = 60000;

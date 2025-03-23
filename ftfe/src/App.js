@@ -3,7 +3,7 @@ import './styles/components.css';
 import './styles/modules.css';
 import './styles/responsive.css';
 import './styles/utilities.css';
-import './App.css';
+import './styles/app.css';
 import { useState, useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PhotoUploadQR from './PhotoUploadQR';
