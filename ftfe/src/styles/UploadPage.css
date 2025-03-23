@@ -1,0 +1,95 @@
+.photo-upload-form {
+  flex: 0 0 20%;
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  margin: 2rem auto;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.photo-upload-form__controls {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 1.5rem;
+}
+
+.custom-file-upload {
+  display: inline-block;
+  padding: 1rem 2rem;
+  background: #4caf50;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-bottom: 1rem;
+}
+
+.custom-file-upload:hover {
+  background: #45a049;
+}
+
+button {
+  padding: 0.8rem 2rem;
+  background: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #1976d2;
+}
+
+@media (max-width: 768px) {
+  .photo-upload-form {
+    width: 100%;
+    padding: 1rem;
+    margin: 0;
+    box-shadow: none;
+  }
+
+  .custom-file-upload,
+  button {
+    padding: 1.2rem;
+    font-size: 1.1rem;
+  }
+
+  .file-name {
+    font-size: 0.9rem;
+  }
+
+  .upload-status {
+    font-size: 0.9rem;
+  }
+}
+
+.file-name {
+  margin: 0 0 1rem 0;
+  color: #666;
+  min-height: 1.2em;
+}
+
+.upload-status {
+  padding: 0.5rem;
+  border-radius: 4px;
+  margin-top: 1rem;
+}
+
+.upload-status[data-status="上传中..."] {
+  color: #2196f3;
+}
+
+.upload-status[data-status="上传成功"] {
+  color: #4caf50;
+}
+
+.upload-status[data-status="上传失败"],
+.upload-status[data-status="网络错误"] {
+  color: #f44336;
+}

@@ -1,0 +1,15 @@
+node_modules/
+uploads/
+
+.env
+.env.local
+
+build/
+dist/
+
+.vscode/
+.idea/
+
+*.log
+
+.DS_Store

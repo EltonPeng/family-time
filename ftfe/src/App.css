@@ -1,0 +1,22 @@
+.placeholder {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #666;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.file-name {
+  margin: 0 0 1rem 0;
+  color: #666;
+  min-height: 1.2em; /* 保持高度稳定 */
+}
+
+p {
+  margin-top: 1rem;
+  color: #666;
+}

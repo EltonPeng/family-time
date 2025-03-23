@@ -1,0 +1,81 @@
+.photo-carousel {
+  flex: 1 1 auto;
+  min-height: 60vh; 
+  max-height: calc(100vh - 20px); 
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  background: #f0f0f0;
+  border-radius: 10px;
+  position: relative;
+}
+
+.photo-carousel img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: opacity 0.5s ease;
+}
+
+.weather-card {
+  flex: 0 0 auto;
+  margin-top: auto;
+  padding: 0.8rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.weather-card h3 {
+  margin: 0 0 1.5rem 0;
+  color: #333;
+  font-size: 1.2rem;
+  text-align: center;
+}
+  
+  /* 天气预报容器 */
+.forecast-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+  
+.weather-card__daily-item {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  max-width: 100%;
+  overflow: hidden;
+}
+  
+  /* 日期样式 */
+.weather-card__daily-item > p:first-child {
+  font-weight: 500;
+  color: #333;
+  margin: 0;
+  font-size: 1rem;
+  text-align: left;
+  width: 100%;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.5rem;
+}
+
+.weather-card__icon-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  font-size: 1.8rem;
+}
+
+.weather-card__daily-item > p:last-child {
+  margin: 0;
+  text-align: center;
+  font-size: 1.1rem;
+  color: #666;
+  background: rgba(0,0,0,0.05);
+  padding: 0.3rem;
+  border-radius: 4px;
+}
