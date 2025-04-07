@@ -2,11 +2,11 @@ import './styles/UploadPage.css';
 import { useState } from 'react';
 
 export default function UploadPage() {
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFiles, setSelectedFiles] = useState([]); 
   const [uploadStatus, setUploadStatus] = useState('');
 
   const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
+    setSelectedFiles([...event.target.files]); 
   };
 
   const handleUpload = async (e) => {
@@ -15,16 +15,18 @@ export default function UploadPage() {
       e.preventDefault();
     }
 
-    if (!selectedFile) {
-      setUploadStatus('select image');
+    if (selectedFiles.length === 0) { 
+      setUploadStatus('At least one picture is required');
       return;
     }
 
     const formData = new FormData();
-    formData.append('file', selectedFile);
+    selectedFiles.forEach((file, index) => {
+      formData.append(`files`, file);
+    });
 
     try {
-      setUploadStatus('uploading...');
+      setUploadStatus(`uploading picture #${selectedFiles.length} ...`);
       const response = await fetch(`http://${process.env.REACT_APP_LOCAL_IP}:${process.env.REACT_APP_BE_PORT}/upload`, {
         method: 'POST',
         body: formData,
@@ -49,12 +51,24 @@ export default function UploadPage() {
     <div className="photo-upload-form">
       <div className="photo-upload-form__controls">
         <label className="custom-file-upload">
-          Select
-          <input type="file" onChange={handleFileChange} />
+          select pictures
+          <input 
+            type="file" 
+            onChange={handleFileChange} 
+            multiple 
+            accept="image/*" 
+          />
         </label>
         <button onClick={handleUpload} onTouchEnd={handleUpload}>Upload</button>
       </div>
-      {selectedFile && <p className="file-name">selected：{selectedFile.name}</p>}
+      {selectedFiles.length > 0 && (
+        <div className="file-list">
+          selected {selectedFiles.length} ：
+          {selectedFiles.map((file, i) => (
+            <div key={i} className="file-name">{file.name}</div>
+          ))}
+        </div>
+      )}
       {uploadStatus && (
         <p className="upload-status" data-status={uploadStatus}>
           Status：{uploadStatus}

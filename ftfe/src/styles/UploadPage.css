@@ -60,8 +60,16 @@ button:hover {
     font-size: 1.1rem;
   }
 
+  .file-list {
+    margin: 10px 0;
+    max-height: 150px;
+    overflow-y: auto;
+  }
+
   .file-name {
-    font-size: 0.9rem;
+    font-size: 0.9em;
+    padding: 3px 0;
+    color: #666;
   }
 
   .upload-status {

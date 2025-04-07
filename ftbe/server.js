@@ -24,34 +24,35 @@ const upload = multer({
 });
 
 app.use(cors({
-    origin: [`http://localhost:${FE_PORT}`,`http://${process.env.LOCAL_IP}:${FE_PORT}`], // 允许前端地址访问
+    origin: [`http://localhost:${FE_PORT}`,`http://${process.env.LOCAL_IP}:${FE_PORT}`], 
     methods: ['GET', 'POST']
   }));
 
 app.use('/images', express.static(UPLOAD_DIR));
 
-app.post('/upload', upload.single('file'), (req, res) => {
+app.post('/upload', upload.array('files'), (req, res) => {
   try {
-    if (!req.file) {
-      return res.status(400).json({ error: '未收到文件' });
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ error: 'no files' });
     }
 
-    // Multer 已自动保存文件，无需手动处理
-    res.status(200).json({ 
-      message: '文件上传成功',
-      filename: req.file.originalname 
-    });
+    const results = req.files.map(file => ({
+      filename: file.originalname,
+      size: file.size
+    }));
+    
+    res.status(200).json(results);
   
   } catch (error) {
-    console.error('上传错误:', error);
-    res.status(500).send('服务器错误');
+    console.error('uploading error:', error);
+    res.status(500).send('server error');
   }
 });
 
 app.get('/api/images', (req, res) => {
   fs.readdir(UPLOAD_DIR, (err, files) => {
     if (err) {
-      return res.status(500).json({ error: '无法读取图片目录' });
+      return res.status(500).json({ error: 'cannot read file path' });
     }
     const imageFiles = files.filter(file => 
       /\.(jpg|jpeg|png|gif)$/i.test(file)
