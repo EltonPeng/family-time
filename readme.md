@@ -56,6 +56,7 @@ chmod +x deploy.sh
 | `CITY_LON` | 108.875 | 前端 | 城市经度 |
 
 ## 部署更新时的操作
+```
 pm2 stop family-time-fe family-time-be
 cd ~/family-time
 git checkout . && git pull
@@ -65,5 +66,6 @@ cd ../ftbe && npm install
 cd ..
 
 pm2 restart family-time-fe family-time-be
+```
 
 欢迎提issue和讨论。
